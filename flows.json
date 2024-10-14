@@ -1,1 +1,295 @@
-[{"id":"3af82246.3634ae","type":"tab","label":"Flow 1","disabled":false,"info":""}]
+[
+    {
+        "id": "f6f2187d.f17ca8",
+        "type": "tab",
+        "label": "(sim)PiltiSmart-THAQ-Probe",
+        "disabled": false,
+        "info": ""
+    },
+    {
+        "id": "7e014090dd718f98",
+        "type": "mqtt-broker",
+        "name": "TH-Simulator-node-red",
+        "broker": "mqtt-tb-sit.piltismart.org",
+        "port": "1883",
+        "clientid": "",
+        "autoConnect": true,
+        "usetls": false,
+        "protocolVersion": "4",
+        "keepalive": "60",
+        "cleansession": true,
+        "autoUnsubscribe": true,
+        "birthTopic": "",
+        "birthQos": "0",
+        "birthRetain": "false",
+        "birthPayload": "",
+        "birthMsg": {},
+        "closeTopic": "",
+        "closeQos": "0",
+        "closeRetain": "false",
+        "closePayload": "",
+        "closeMsg": {},
+        "willTopic": "",
+        "willQos": "0",
+        "willRetain": "false",
+        "willPayload": "",
+        "willMsg": {},
+        "userProps": "",
+        "sessionExpiry": ""
+    },
+    {
+        "id": "99389550b852e075",
+        "type": "http request",
+        "z": "f6f2187d.f17ca8",
+        "name": "Get TH Data",
+        "method": "GET",
+        "ret": "obj",
+        "paytoqs": "ignore",
+        "url": "https://api.openweathermap.org/data/2.5/weather?lat=53.349899&lon=-6.269648&appid=a2f587cab8f72610e9e3bc4f3bbaa905&units=metric",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "insecureHTTPParser": false,
+        "authType": "",
+        "senderr": false,
+        "headers": [],
+        "x": 130,
+        "y": 200,
+        "wires": [
+            [
+                "b56efe47ad8adcf5"
+            ]
+        ]
+    },
+    {
+        "id": "b56efe47ad8adcf5",
+        "type": "function",
+        "z": "f6f2187d.f17ca8",
+        "name": "TH",
+        "func": "let payload = msg.payload;  // Extract the payload from the message\n\n// Create a new object to store the extracted values\nlet out = {};\n\n// Check if the required fields are present\nif (payload.main) {\n    out.temperature = payload.main.temp;  // Extract the temperature\n    out.humidity = payload.main.humidity;  // Extract the humidity\n}\n\n// Set the new output in msg.payload\nmsg.payload = out;\n\n// Return the updated message object\nreturn msg;\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 370,
+        "y": 180,
+        "wires": [
+            [
+                "b0353a3e8ddaf930"
+            ]
+        ]
+    },
+    {
+        "id": "b0353a3e8ddaf930",
+        "type": "mqtt out",
+        "z": "f6f2187d.f17ca8",
+        "name": "(Telemetry)TH-Simulator-node-red",
+        "topic": "v1/devices/me/telemetry",
+        "qos": "",
+        "retain": "",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "7e014090dd718f98",
+        "x": 640,
+        "y": 160,
+        "wires": []
+    },
+    {
+        "id": "fdaf310ac5f99f7d",
+        "type": "http request",
+        "z": "f6f2187d.f17ca8",
+        "name": "Get AQI Data",
+        "method": "GET",
+        "ret": "obj",
+        "paytoqs": "ignore",
+        "url": "https://api.openweathermap.org/data/2.5/air_pollution?lat=53.349899&lon=-6.269648&appid=a2f587cab8f72610e9e3bc4f3bbaa905&units=metric",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "insecureHTTPParser": false,
+        "authType": "",
+        "senderr": false,
+        "headers": [],
+        "x": 130,
+        "y": 240,
+        "wires": [
+            [
+                "e6e0dfb751c2d3a0"
+            ]
+        ]
+    },
+    {
+        "id": "e6e0dfb751c2d3a0",
+        "type": "function",
+        "z": "f6f2187d.f17ca8",
+        "name": "AQI",
+        "func": "// Extract the payload from the message\nlet payload = msg.payload;\n\n// Create an object to store the extracted values\nlet out = {};\n\n// Check if 'list' and 'main' fields exist in the payload\nif (payload.list && payload.list[0]) {\n    let airData = payload.list[0];  // Access the first element in the list\n\n    // Extract AQI from the 'main' section\n    out.aqi = airData.main.aqi;\n\n    // Extract all components from the 'components' section\n    if (airData.components) {\n        out.co = airData.components.co;\n        out.no = airData.components.no;\n        out.no2 = airData.components.no2;\n        out.o3 = airData.components.o3;\n        out.so2 = airData.components.so2;\n        out.pm2_5 = airData.components.pm2_5;\n        out.pm10 = airData.components.pm10;\n        out.nh3 = airData.components.nh3;\n    }\n}\n\n// Set the new output in msg.payload\nmsg.payload = out;\n\n// Return the updated message object\nreturn msg;\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 370,
+        "y": 240,
+        "wires": [
+            [
+                "b0353a3e8ddaf930"
+            ]
+        ]
+    },
+    {
+        "id": "452afc3586cf64ce",
+        "type": "function",
+        "z": "f6f2187d.f17ca8",
+        "name": "Battery Level",
+        "func": "// Simulate battery level decay (initial battery level between 20-100%)\nlet batteryLevel = Math.random() * (100 - 20) + 20;\n\n// Optionally, introduce a random decay (battery drops between 1% and 5% with each reading)\nlet decay = Math.random() * (5 - 1) + 1;\nbatteryLevel = Math.max(0, batteryLevel - decay);  // Ensure it doesn't drop below 0\n\n// Simulate charging status (true or false randomly)\nlet isCharging = Math.random() < 0.5;  // 50% chance of being in charging mode\n\n// If charging, simulate battery increasing instead of decreasing\nif (isCharging) {\n    let chargeIncrease = Math.random() * (5 - 1) + 1;\n    batteryLevel = Math.min(100, batteryLevel + chargeIncrease);  // Ensure it doesn't go over 100\n}\n\n// Create an output object to store the battery level, status, and charging state\nlet out = {\n    batteryLevel: batteryLevel.toFixed(2),  // Keep 2 decimal places\n    batteryChargingStatus: isCharging ? \"Charging\" : \"Not charging\"  // Display \"Charging\" or \"Not charging\"\n};\n\n// Determine battery status based on the battery level\nif (batteryLevel < 20) {\n    out.batteryStatus = \"Low\";\n} else if (batteryLevel >= 20 && batteryLevel <= 99) {\n    out.batteryStatus = \"Normal\";\n} else {\n    out.batteryStatus = \"Full\";\n}\n\n// Set the new output in msg.payload\nmsg.payload = out;\n\n// Return the updated message object\nreturn msg;\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 130,
+        "y": 280,
+        "wires": [
+            [
+                "30c617eaaeec9294"
+            ]
+        ]
+    },
+    {
+        "id": "30c617eaaeec9294",
+        "type": "mqtt out",
+        "z": "f6f2187d.f17ca8",
+        "name": "(Attributes)TH-Simulator-node-red",
+        "topic": "v1/devices/me/attributes",
+        "qos": "",
+        "retain": "",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "7e014090dd718f98",
+        "x": 640,
+        "y": 300,
+        "wires": []
+    },
+    {
+        "id": "7b8fd0d2ad4d73bc",
+        "type": "function",
+        "z": "f6f2187d.f17ca8",
+        "name": "format IP",
+        "func": "// Get the result from the exec node which outputs the IP\nlet ipAddress = msg.payload.trim();  // Trim any extra spaces\n\n// Set the IP address in msg.payload\nmsg.payload = {\n    ipAddress: ipAddress\n};\n\n// Return the message object\nreturn msg;\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 360,
+        "y": 340,
+        "wires": [
+            [
+                "30c617eaaeec9294"
+            ]
+        ]
+    },
+    {
+        "id": "2ab989d563a1fdb1",
+        "type": "exec",
+        "z": "f6f2187d.f17ca8",
+        "command": "ifconfig eth0 | grep 'inet ' | awk '{print $2}'",
+        "addpay": "",
+        "append": "",
+        "useSpawn": "false",
+        "timer": "",
+        "winHide": false,
+        "oldrc": false,
+        "name": "Get IP",
+        "x": 110,
+        "y": 340,
+        "wires": [
+            [
+                "7b8fd0d2ad4d73bc"
+            ],
+            [],
+            []
+        ]
+    },
+    {
+        "id": "f067313f017e4f35",
+        "type": "mqtt in",
+        "z": "f6f2187d.f17ca8",
+        "name": "(Attributes)TH-Simulator-node-red",
+        "topic": "v1/devices/me/attributes",
+        "qos": "2",
+        "datatype": "auto-detect",
+        "broker": "7e014090dd718f98",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 180,
+        "y": 40,
+        "wires": [
+            [
+                "e4efb105c930ab9d"
+            ]
+        ]
+    },
+    {
+        "id": "64fc07eb7fc33556",
+        "type": "trigger",
+        "z": "f6f2187d.f17ca8",
+        "name": "dataIntravelContoller",
+        "op1": "1",
+        "op2": "0",
+        "op1type": "str",
+        "op2type": "str",
+        "duration": "-250",
+        "extend": false,
+        "overrideDelay": true,
+        "units": "s",
+        "reset": "",
+        "bytopic": "all",
+        "topic": "topic",
+        "outputs": 1,
+        "x": 140,
+        "y": 120,
+        "wires": [
+            [
+                "99389550b852e075",
+                "fdaf310ac5f99f7d",
+                "452afc3586cf64ce",
+                "2ab989d563a1fdb1"
+            ]
+        ]
+    },
+    {
+        "id": "e4efb105c930ab9d",
+        "type": "function",
+        "z": "f6f2187d.f17ca8",
+        "name": "function 1",
+        "func": "let out ={}\nif (msg.payload.dataIntravel < 10) \n{ msg.payload.dataIntravel = 10}\n\nout.delay = (msg.payload.dataIntravel)*1000\n\nreturn out;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 440,
+        "y": 40,
+        "wires": [
+            [
+                "64fc07eb7fc33556"
+            ]
+        ]
+    }
+]
