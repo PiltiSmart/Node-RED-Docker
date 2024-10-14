@@ -7,9 +7,48 @@
         "info": ""
     },
     {
+        "id": "e8eb5aef210dfc58",
+        "type": "tab",
+        "label": "(sim)PiltiSmart-WL-Probe",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
         "id": "7e014090dd718f98",
         "type": "mqtt-broker",
         "name": "TH-Simulator-node-red",
+        "broker": "mqtt-tb-sit.piltismart.org",
+        "port": "1883",
+        "clientid": "",
+        "autoConnect": true,
+        "usetls": false,
+        "protocolVersion": "4",
+        "keepalive": "60",
+        "cleansession": true,
+        "autoUnsubscribe": true,
+        "birthTopic": "",
+        "birthQos": "0",
+        "birthRetain": "false",
+        "birthPayload": "",
+        "birthMsg": {},
+        "closeTopic": "",
+        "closeQos": "0",
+        "closeRetain": "false",
+        "closePayload": "",
+        "closeMsg": {},
+        "willTopic": "",
+        "willQos": "0",
+        "willRetain": "false",
+        "willPayload": "",
+        "willMsg": {},
+        "userProps": "",
+        "sessionExpiry": ""
+    },
+    {
+        "id": "b3354e2896d1b58e",
+        "type": "mqtt-broker",
+        "name": "PiltiSmart-WL-Probe",
         "broker": "mqtt-tb-sit.piltismart.org",
         "port": "1883",
         "clientid": "",
@@ -135,8 +174,8 @@
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 370,
-        "y": 240,
+        "x": 410,
+        "y": 260,
         "wires": [
             [
                 "b0353a3e8ddaf930"
@@ -178,7 +217,7 @@
         "expiry": "",
         "broker": "7e014090dd718f98",
         "x": 640,
-        "y": 300,
+        "y": 360,
         "wires": []
     },
     {
@@ -193,8 +232,8 @@
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 360,
-        "y": 340,
+        "x": 340,
+        "y": 400,
         "wires": [
             [
                 "30c617eaaeec9294"
@@ -276,7 +315,7 @@
         "id": "e4efb105c930ab9d",
         "type": "function",
         "z": "f6f2187d.f17ca8",
-        "name": "function 1",
+        "name": "dataIntravelLimit",
         "func": "let out ={}\nif (msg.payload.dataIntravel < 10) \n{ msg.payload.dataIntravel = 10}\n\nout.delay = (msg.payload.dataIntravel)*1000\n\nreturn out;",
         "outputs": 1,
         "timeout": 0,
@@ -284,11 +323,176 @@
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 440,
+        "x": 470,
         "y": 40,
         "wires": [
             [
                 "64fc07eb7fc33556"
+            ]
+        ]
+    },
+    {
+        "id": "c9d1d5f735172628",
+        "type": "mqtt out",
+        "z": "e8eb5aef210dfc58",
+        "name": "(Telemetry)WaterLevel-Probe",
+        "topic": "v1/devices/me/telemetry",
+        "qos": "",
+        "retain": "",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "b3354e2896d1b58e",
+        "x": 540,
+        "y": 200,
+        "wires": []
+    },
+    {
+        "id": "dd354c380b194489",
+        "type": "function",
+        "z": "e8eb5aef210dfc58",
+        "name": "Battery Level",
+        "func": "// Simulate battery level decay (initial battery level between 20-100%)\nlet batteryLevel = Math.random() * (100 - 20) + 20;\n\n// Optionally, introduce a random decay (battery drops between 1% and 5% with each reading)\nlet decay = Math.random() * (5 - 1) + 1;\nbatteryLevel = Math.max(0, batteryLevel - decay);  // Ensure it doesn't drop below 0\n\n// Simulate charging status (true or false randomly)\nlet isCharging = Math.random() < 0.5;  // 50% chance of being in charging mode\n\n// If charging, simulate battery increasing instead of decreasing\nif (isCharging) {\n    let chargeIncrease = Math.random() * (5 - 1) + 1;\n    batteryLevel = Math.min(100, batteryLevel + chargeIncrease);  // Ensure it doesn't go over 100\n}\n\n// Create an output object to store the battery level, status, and charging state\nlet out = {\n    batteryLevel: batteryLevel.toFixed(2),  // Keep 2 decimal places\n    batteryChargingStatus: isCharging ? \"Charging\" : \"Not charging\"  // Display \"Charging\" or \"Not charging\"\n};\n\n// Determine battery status based on the battery level\nif (batteryLevel < 20) {\n    out.batteryStatus = \"Low\";\n} else if (batteryLevel >= 20 && batteryLevel <= 99) {\n    out.batteryStatus = \"Normal\";\n} else {\n    out.batteryStatus = \"Full\";\n}\n\n// Set the new output in msg.payload\nmsg.payload = out;\n\n// Return the updated message object\nreturn msg;\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 170,
+        "y": 300,
+        "wires": [
+            [
+                "0ba9cd73dd874d6c"
+            ]
+        ]
+    },
+    {
+        "id": "0ba9cd73dd874d6c",
+        "type": "mqtt out",
+        "z": "e8eb5aef210dfc58",
+        "name": "(Attributes)WaterLevel-Probe",
+        "topic": "v1/devices/me/attributes",
+        "qos": "",
+        "retain": "",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "b3354e2896d1b58e",
+        "x": 560,
+        "y": 300,
+        "wires": []
+    },
+    {
+        "id": "0af029b219fcac36",
+        "type": "function",
+        "z": "e8eb5aef210dfc58",
+        "name": "format IP",
+        "func": "// Get the result from the exec node which outputs the IP\nlet ipAddress = msg.payload.trim();  // Trim any extra spaces\n\n// Set the IP address in msg.payload\nmsg.payload = {\n    ipAddress: ipAddress\n};\n\n// Return the message object\nreturn msg;\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 380,
+        "y": 420,
+        "wires": [
+            [
+                "0ba9cd73dd874d6c"
+            ]
+        ]
+    },
+    {
+        "id": "d2386668794075b6",
+        "type": "exec",
+        "z": "e8eb5aef210dfc58",
+        "command": "ifconfig eth0 | grep 'inet ' | awk '{print $2}'",
+        "addpay": "",
+        "append": "",
+        "useSpawn": "false",
+        "timer": "",
+        "winHide": false,
+        "oldrc": false,
+        "name": "Get IP",
+        "x": 150,
+        "y": 360,
+        "wires": [
+            [
+                "0af029b219fcac36"
+            ],
+            [],
+            []
+        ]
+    },
+    {
+        "id": "5cc410c371e7ea92",
+        "type": "mqtt in",
+        "z": "e8eb5aef210dfc58",
+        "name": "(Attributes)WaterLevel-Probe",
+        "topic": "v1/devices/me/attributes",
+        "qos": "2",
+        "datatype": "auto-detect",
+        "broker": "b3354e2896d1b58e",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 200,
+        "y": 60,
+        "wires": [
+            [
+                "978a77fe34a515f8"
+            ]
+        ]
+    },
+    {
+        "id": "f0c0548ef4c220bc",
+        "type": "trigger",
+        "z": "e8eb5aef210dfc58",
+        "name": "dataIntravelContoller",
+        "op1": "1",
+        "op2": "0",
+        "op1type": "str",
+        "op2type": "str",
+        "duration": "-250",
+        "extend": false,
+        "overrideDelay": true,
+        "units": "s",
+        "reset": "",
+        "bytopic": "all",
+        "topic": "topic",
+        "outputs": 1,
+        "x": 180,
+        "y": 140,
+        "wires": [
+            [
+                "dd354c380b194489",
+                "d2386668794075b6"
+            ]
+        ]
+    },
+    {
+        "id": "978a77fe34a515f8",
+        "type": "function",
+        "z": "e8eb5aef210dfc58",
+        "name": "dataIntravelLimit",
+        "func": "let out ={}\nif (msg.payload.dataIntravel < 10) \n{ msg.payload.dataIntravel = 10}\n\nout.delay = (msg.payload.dataIntravel)*1000\n\nreturn out;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 510,
+        "y": 60,
+        "wires": [
+            [
+                "f0c0548ef4c220bc"
             ]
         ]
     }
