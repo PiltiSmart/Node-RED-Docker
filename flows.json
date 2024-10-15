@@ -92,8 +92,8 @@
         "authType": "",
         "senderr": false,
         "headers": [],
-        "x": 130,
-        "y": 200,
+        "x": 150,
+        "y": 280,
         "wires": [
             [
                 "b56efe47ad8adcf5"
@@ -112,8 +112,8 @@
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 370,
-        "y": 180,
+        "x": 390,
+        "y": 260,
         "wires": [
             [
                 "b0353a3e8ddaf930"
@@ -134,8 +134,8 @@
         "correl": "",
         "expiry": "",
         "broker": "7e014090dd718f98",
-        "x": 640,
-        "y": 160,
+        "x": 660,
+        "y": 200,
         "wires": []
     },
     {
@@ -154,8 +154,8 @@
         "authType": "",
         "senderr": false,
         "headers": [],
-        "x": 130,
-        "y": 240,
+        "x": 150,
+        "y": 320,
         "wires": [
             [
                 "e6e0dfb751c2d3a0"
@@ -174,8 +174,8 @@
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 410,
-        "y": 260,
+        "x": 430,
+        "y": 340,
         "wires": [
             [
                 "b0353a3e8ddaf930"
@@ -194,8 +194,8 @@
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 130,
-        "y": 280,
+        "x": 150,
+        "y": 360,
         "wires": [
             [
                 "30c617eaaeec9294"
@@ -216,8 +216,8 @@
         "correl": "",
         "expiry": "",
         "broker": "7e014090dd718f98",
-        "x": 640,
-        "y": 360,
+        "x": 660,
+        "y": 380,
         "wires": []
     },
     {
@@ -232,8 +232,8 @@
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 340,
-        "y": 400,
+        "x": 360,
+        "y": 420,
         "wires": [
             [
                 "30c617eaaeec9294"
@@ -252,8 +252,8 @@
         "winHide": false,
         "oldrc": false,
         "name": "Get IP",
-        "x": 110,
-        "y": 340,
+        "x": 130,
+        "y": 420,
         "wires": [
             [
                 "7b8fd0d2ad4d73bc"
@@ -276,7 +276,7 @@
         "rh": 0,
         "inputs": 0,
         "x": 180,
-        "y": 40,
+        "y": 120,
         "wires": [
             [
                 "e4efb105c930ab9d"
@@ -300,15 +300,14 @@
         "bytopic": "all",
         "topic": "topic",
         "outputs": 1,
-        "x": 140,
-        "y": 120,
+        "x": 160,
+        "y": 200,
         "wires": [
             [
                 "99389550b852e075",
                 "fdaf310ac5f99f7d",
                 "452afc3586cf64ce",
-                "2ab989d563a1fdb1",
-                "ac0f3d689db5ddbb"
+                "2ab989d563a1fdb1"
             ]
         ]
     },
@@ -324,8 +323,8 @@
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 470,
-        "y": 40,
+        "x": 490,
+        "y": 120,
         "wires": [
             [
                 "64fc07eb7fc33556"
@@ -349,46 +348,13 @@
         "topic": "",
         "payload": "{\"dataIntravel\":31}",
         "payloadType": "json",
-        "x": 120,
-        "y": 440,
+        "x": 180,
+        "y": 60,
         "wires": [
             [
-                "bf2f37b60c95d7b0",
                 "e4efb105c930ab9d"
             ]
         ]
-    },
-    {
-        "id": "bf2f37b60c95d7b0",
-        "type": "debug",
-        "z": "f6f2187d.f17ca8",
-        "name": "debug 1",
-        "active": true,
-        "tosidebar": true,
-        "console": false,
-        "tostatus": false,
-        "complete": "false",
-        "statusVal": "",
-        "statusType": "auto",
-        "x": 380,
-        "y": 460,
-        "wires": []
-    },
-    {
-        "id": "ac0f3d689db5ddbb",
-        "type": "debug",
-        "z": "f6f2187d.f17ca8",
-        "name": "debug 2",
-        "active": true,
-        "tosidebar": true,
-        "console": false,
-        "tostatus": false,
-        "complete": "false",
-        "statusVal": "",
-        "statusType": "auto",
-        "x": 640,
-        "y": 100,
-        "wires": []
     },
     {
         "id": "c9d1d5f735172628",
@@ -404,8 +370,8 @@
         "correl": "",
         "expiry": "",
         "broker": "b3354e2896d1b58e",
-        "x": 540,
-        "y": 200,
+        "x": 580,
+        "y": 340,
         "wires": []
     },
     {
@@ -420,8 +386,8 @@
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 170,
-        "y": 300,
+        "x": 210,
+        "y": 280,
         "wires": [
             [
                 "0ba9cd73dd874d6c"
@@ -442,8 +408,8 @@
         "correl": "",
         "expiry": "",
         "broker": "b3354e2896d1b58e",
-        "x": 560,
-        "y": 300,
+        "x": 580,
+        "y": 260,
         "wires": []
     },
     {
@@ -459,7 +425,7 @@
         "finalize": "",
         "libs": [],
         "x": 380,
-        "y": 420,
+        "y": 320,
         "wires": [
             [
                 "0ba9cd73dd874d6c"
@@ -478,8 +444,8 @@
         "winHide": false,
         "oldrc": false,
         "name": "Get IP",
-        "x": 150,
-        "y": 360,
+        "x": 190,
+        "y": 340,
         "wires": [
             [
                 "0af029b219fcac36"
@@ -502,7 +468,7 @@
         "rh": 0,
         "inputs": 0,
         "x": 200,
-        "y": 60,
+        "y": 140,
         "wires": [
             [
                 "978a77fe34a515f8"
@@ -527,11 +493,12 @@
         "topic": "topic",
         "outputs": 1,
         "x": 180,
-        "y": 140,
+        "y": 200,
         "wires": [
             [
                 "dd354c380b194489",
-                "d2386668794075b6"
+                "d2386668794075b6",
+                "water-level-function"
             ]
         ]
     },
@@ -548,10 +515,69 @@
         "finalize": "",
         "libs": [],
         "x": 510,
-        "y": 60,
+        "y": 120,
         "wires": [
             [
                 "f0c0548ef4c220bc"
+            ]
+        ]
+    },
+    {
+        "id": "water-level-function",
+        "type": "function",
+        "z": "e8eb5aef210dfc58",
+        "name": "Simulate Water Level",
+        "func": "// Initialize water level on first run\nlet waterLevel = context.get('waterLevel') || 100;\nlet decreasing = context.get('decreasing') || true;\n\n// Simulate the water consumption and refill process\nif (decreasing) {\n    waterLevel -= 5;  // decrease by 5 units\n    if (waterLevel <= 0) {\n        waterLevel = 0; // make sure it doesn't go below 0\n        decreasing = false;  // start refilling\n    }\n} else {\n    waterLevel += 20; // increase by 20 units during refill\n    if (waterLevel >= 100) {\n        waterLevel = 100; // make sure it doesn't go above 100\n        decreasing = true;  // start decreasing again\n    }\n}\n\n// Save updated water level and state\ncontext.set('waterLevel', waterLevel);\ncontext.set('decreasing', decreasing);\n\n// Output the water level as JSON\nmsg.payload = { \"Water_Level\": waterLevel };\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "x": 220,
+        "y": 400,
+        "wires": [
+            [
+                "debug-water-level",
+                "c9d1d5f735172628"
+            ]
+        ]
+    },
+    {
+        "id": "debug-water-level",
+        "type": "debug",
+        "z": "e8eb5aef210dfc58",
+        "name": "Water Level Debug",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "x": 550,
+        "y": 420,
+        "wires": []
+    },
+    {
+        "id": "6fdfbafa4819e40b",
+        "type": "inject",
+        "z": "e8eb5aef210dfc58",
+        "name": "Restart Device",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": true,
+        "onceDelay": "3",
+        "topic": "",
+        "payload": "{\"dataIntravel\":30}",
+        "payloadType": "json",
+        "x": 160,
+        "y": 80,
+        "wires": [
+            [
+                "978a77fe34a515f8"
             ]
         ]
     }
